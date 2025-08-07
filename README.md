@@ -1,4 +1,3 @@
-# LINUX 2: ELECTRIC BOOGALOO
+# C Compiler
 
-A study on Operating Systems and the C code that builds them.  
-The ultimate goal is to build an OS from scratch, load it into a VM, and make some kind of post to the internet
+A study on C code and the compilers that make it work
