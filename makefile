@@ -1,5 +1,5 @@
-lexer: lexer/bin/main.ml
-	dune build --root=./lexer
+_: bin/main.ml bin/lex.ml
+	dune build
 
 return2: return_2.c
 	cc -o return_2 return_2.c
