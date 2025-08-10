@@ -1,4 +1,4 @@
-_: bin/main.ml bin/lex.ml
+_: bin/main.ml
 	dune build
 
 return2: return_2.c
