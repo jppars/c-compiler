@@ -1,5 +1,5 @@
-lexer: lexer.ml
-	ocamlopt -o lexer lexer.ml
+lexer: lexer/bin/main.ml
+	dune build --root=./lexer
 
 return2: return_2.c
 	cc -o return_2 return_2.c
