@@ -1,25 +1,39 @@
-let rec print_lines in_stream =
+let valid_source = Str.regexp {|^[^ /]+\.c$|}
+let delims = Str.regexp {|\((\|)\|\{\|\}\|;\)|}
+
+let rec tokenize arr input =
+    match input with
+    | [] -> arr
+    | item :: item_ls -> tokenize (item :: arr) item_ls
+
+let rec read_lines arr in_stream =
     match input_line in_stream with
     | exception End_of_file ->
             flush stdout;
-            close_in in_stream
-    | line -> 
-            print_endline line;
-            print_lines in_stream 
+            close_in in_stream;
+            arr
+    | line ->
+            let spaced = Str.global_replace delims {|\1 |} line in
+            let input_arr = Str.split (Str.regexp {|\([ ]+\|\b\)|}) spaced in
+            let next_arr = tokenize arr input_arr in
+            read_lines next_arr in_stream
 
-let read_file filename =
+let lex_file filename =
     let input = open_in filename in
-    print_lines input
+    read_lines [] input
 
-let valid_source = Str.regexp {|[^ /]+\.c|}
+let rec print_list arr = 
+    match arr with
+    | [] -> ()
+    | i :: i_s -> print_endline i; print_list i_s
 
-let usage = print_endline {|Usage: ./lexer file-to-lex.c|}
+let usage = {|Usage: ./lexer file-to-lex.c|}
 
 let () =
     try
         let file = Sys.argv.(1) in
         if Str.string_match valid_source file 0
-        then read_file file
-        else print_endline file
+        then print_list (List.rev (lex_file file))
+        else print_endline usage
     with Invalid_argument _ ->
-        usage
+        print_endline usage
