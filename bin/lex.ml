@@ -1,4 +1,4 @@
-let delims = Str.regexp {|\((\|)\|\{\|\}\|;\)|}
+let delims = Str.regexp {|\((\|)\|\{\|\}\|;\|-\|~\|!\)|}
 
 let rec tokenize arr input =
     match input with

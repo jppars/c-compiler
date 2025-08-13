@@ -1,9 +1,9 @@
 let valid_source = Str.regexp {|^[^ /]+\.c$|}
 
-let rec print_list arr = 
+(* let rec print_list arr = 
     match arr with
     | [] -> ()
-    | i :: i_s -> print_endline i; print_list i_s
+    | i :: i_s -> print_endline i; print_list i_s *)
 
 let usage = {|Usage: dune exec c-compiler file-to-read.c assembly-out.s|}
 
@@ -14,9 +14,8 @@ let () =
         let file = Sys.argv.(1) in
         if Str.string_match valid_source file 0
         then let tokens = (List.rev (Lex.lex file)) in
-            let ast, remaining = Parse.parse tokens in
+            let ast = Parse.parse tokens in
             Generate.generate ast output;
-            print_list remaining
         else print_endline usage
     with Invalid_argument _ ->
         print_endline usage
